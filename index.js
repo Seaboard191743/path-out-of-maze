@@ -1,55 +1,53 @@
 const grid = [
   ["#", "#", "#", "#", "#", "#", "#", "#", "#"],
 
-  ["#", "+", "+", "+", "#", "+", "+", "+", "#"],
+  ["#", "+", "+", "+", "#", "+", "+", "+", "+"],
 
-  ["#", "+", "#", "+", "#", "+", "#", "+", "#"],
+  ["#", "+", "#", "+", "#", "+", "#", "#", "#"],
 
-  ["+", "+", "#", "+", "0", "+", "#", "+", "#"],
+  ["#", "+", "#", "+", "0", "+", "#", "#", "#"],
 
-  ["#", "#", "#", "+", "#", "#", "#", "#", "#"],
+  ["#", "#", "#", "+", "#", "+", "#", "#", "#"],
 
-  ["#", "#", "+", "+", "#", "#", "#", "#", "#"],
+  ["#", "#", "+", "+", "#", "+", "#", "#", "#"],
 
-  ["#", "#", "+", "#", "#", "#", "#", "#", "#"],
+  ["#", "+", "+", "#", "#", "+", "#", "#", "#"],
 
   ["#", "#", "#", "#", "#", "#", "#", "#", "#"],
 ];
 
-const findStartPoint = () => {
+const findStartPoint = (point) => {
   const startPoint = {};
-  grid.forEach((elem, i) => {
-    elem.forEach((_, j) => {
-      if (grid[i][j] === "0") {
-        startPoint.row = i;
-        startPoint.column = j;
-      }
-    });
+  const start = grid.find((elem, i) => {
+    const targetArr = elem.includes(point);
+    targetArr ? (startPoint.row = i) : null;
+    return elem.includes(point);
   });
+  start.forEach((item, i) => (item === point ? (startPoint.column = i) : null));
   return startPoint;
 };
 
-const findEndPoint = () => {
+const findEndPoint = (point) => {
   const endPoint = {};
   grid.forEach((elem, i) => {
-    elem.forEach((_, __) => {
-      if (grid[i][0] === "+") {
+    elem.forEach((_, j) => {
+      if ((i === 0 || i === grid.length - 1) && grid[i][j] === point) {
         endPoint.row = i;
-        endPoint.column = 0;
-      } else if (grid[0][i] === "+" || grid[grid.length - 1][i] === "+") {
-        endPoint.row = grid.length - 1 || 0;
-        endPoint.column = i;
+        endPoint.column = j;
+      }
+      if ((j === 0 || j === grid[i].length - 1) && grid[i][j] === point) {
+        endPoint.row = i;
+        endPoint.column = j;
       }
     });
   });
   return endPoint;
 };
 
-const startPos = findStartPoint();
-const endPos = findEndPoint();
+const startPos = findStartPoint("0");
+const endPos = findEndPoint("+");
 const ROWS = grid.length;
 const COLS = grid[0].length;
-
 grid[endPos.row][endPos.column] = "exit";
 
 const queue = [];
@@ -144,4 +142,4 @@ const findPath = (startPos, grid) => {
   return false;
 };
 
-findPath(startPos, grid);
+console.log(findPath(startPos, grid));
