@@ -1,7 +1,7 @@
 const grid = [
   ["#", "#", "#", "#", "#", "#", "#", "#", "#"],
 
-  ["#", "+", "+", "+", "#", "+", "+", "+", "+"],
+  ["#", "+", "+", "+", "#", "+", "+", "+", "#"],
 
   ["#", "+", "#", "+", "#", "+", "#", "#", "#"],
 
@@ -48,7 +48,6 @@ const startPos = findStartPoint("0");
 const endPos = findEndPoint("+");
 const ROWS = grid.length;
 const COLS = grid[0].length;
-grid[endPos.row][endPos.column] = "exit";
 
 const queue = [];
 
@@ -101,6 +100,9 @@ const findDir = (pos, dir, grid) => {
   return newPos;
 };
 const findPath = (startPos, grid) => {
+  const endPos = findEndPoint("+");
+  if (!endPos.hasOwnProperty("row")) return false;
+  grid[endPos.row][endPos.column] = "exit";
   const currPos = {
     row: startPos.row,
     column: startPos.column,
@@ -142,4 +144,4 @@ const findPath = (startPos, grid) => {
   return false;
 };
 
-console.log(findPath(startPos, grid));
+findPath(startPos, grid);
