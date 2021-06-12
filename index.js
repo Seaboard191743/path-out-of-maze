@@ -45,7 +45,6 @@ const findEndPoint = (point) => {
 };
 
 const startPos = findStartPoint("0");
-const endPos = findEndPoint("+");
 const ROWS = grid.length;
 const COLS = grid[0].length;
 
